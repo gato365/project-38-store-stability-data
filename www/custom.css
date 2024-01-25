@@ -1,0 +1,30 @@
+/* Override Materialize default styles */
+body.grey.lighten-4 {
+  background-color: #2b2b2b !important; /* Dark background */
+  color: #add8e6 !important; /* Lightish medium blue text */
+}
+
+/* Style for the navbar */
+.nav-wrapper {
+  background-color: #1a1a1a; /* Darker background for navbar */
+  color: #add8e6; /* Lightish medium blue text */
+}
+
+/* Style for navbar text */
+.nav-wrapper a, .nav-wrapper li {
+  color: #add8e6; /* Lightish medium blue text */
+}
+
+/* Style for the main content div */
+.main-content, .card, .card-panel {
+  background-color: #4b4b4b; /* Lighter dark background */
+  color: #add8e6; /* Lightish medium blue text */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Other styles as before... */
+
+/* Hover effect for navbar links */
+.nav-wrapper a:hover {
+  color: #9ac7e6; /* Slightly lighter shade on hover */
+}
