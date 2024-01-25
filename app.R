@@ -13,14 +13,16 @@ library(shinymaterial)
 
 ## Connect to the database
 
-# username <- Sys.getenv("username")
-# password <- Sys.getenv("password")
-# data_base <- Sys.getenv("data_base")
-# cluster <- Sys.getenv("cluster")
-# url <- paste0("mongodb+srv://",username,":",password,"@",cluster,".rjzoaxj.mongodb.net/",data_base,"?retryWrites=true&w=majority")
-# mongo <- mongo(url = url,
-#                collection = "emans_info", 
-#                db = "stability")
+username <- Sys.getenv("username")
+password <- Sys.getenv("password")
+data_base <- Sys.getenv("data_base")
+cluster <- Sys.getenv("cluster")
+url <- paste0("mongodb+srv://",username,":",password,"@",cluster,".rjzoaxj.mongodb.net/",data_base,"?retryWrites=true&w=majority")
+mongo <- mongo(url = url,
+               collection = "emans_info",
+               db = "stability")
+
+
 
 
 
@@ -244,7 +246,6 @@ server <- function(input, output, session) {
       wakeUpTime = input$wakeUpTime,
       weight = input$weight,
       goalOutcome = input$goalOutcome,
-      foodOutcome = input$foodOutcome,
       foodQuality = input$foodQuality,
       drink = input$drink,
       mj = input$mj,
@@ -259,11 +260,13 @@ server <- function(input, output, session) {
     jsonData <- jsonlite::toJSON(inputData, auto_unbox = TRUE, pretty = TRUE)
     
     # Insert the JSON data into the MongoDB collection
-    # mongo$insert(jsonData)
+    result <- mongo$insert(jsonData,tls = FALSE)
+    
     
     # Output the JSON data
     output$jsonData <- renderText({
-      jsonData
+      paste0(jsonData)
+      
       
       
     })
