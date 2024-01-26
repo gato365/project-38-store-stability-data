@@ -165,7 +165,24 @@ ui <- material_page(
             )
           )
         ),
+      
         
+        
+        
+        material_row(
+          material_column(
+            width = 12,
+            align = "center",
+            shinyWidgets::pickerInput(
+              inputId = "isLate",
+              label = h5("Is this entry late?"),
+              choices = c("Yes", "No"),
+              selected = "No",
+              options = list(`style` = "btn-primary")
+            )
+          )
+        ),
+          
         
         material_row(
           material_column(
@@ -250,6 +267,7 @@ server <- function(input, output, session) {
       drink = input$drink,
       mj = input$mj,
       spendMoney = input$spendMoney,
+      isLate = input$isLate,
       notes = input$notes
       
       
