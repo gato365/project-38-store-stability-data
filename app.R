@@ -22,7 +22,16 @@ mongo <- mongo(url = url,
                collection = "emans_info",
                db = "stability",
                options = ssl_options(key = openssl::read_cert(Sys.getenv("pem"))))
-# 
+
+
+
+
+
+
+## Get and organize previous excel Data
+source("plotting_code.R")
+
+
 
 
 
@@ -219,11 +228,21 @@ ui <- material_page(
         ),
         
         material_row(
-       
+          
           material_column(
-            width = 12,
+            width = 6,
             actionButton("toggle_plot", "Show/Hide Plot"),
             # actionButton("show_plot", "Show Visualization", class = "btn-primary")
+          ),
+          material_column(
+            width = 6,
+            shinyWidgets::pickerInput(
+              inputId = "typePlot",
+              label = h5("Plot Type"),
+              choices = c("Mood", "Goal", "Food Quality"),
+              selected = "Mood",
+              options = list(`style` = "btn-primary")
+            )
           )
         )
         
@@ -341,9 +360,35 @@ server <- function(input, output, session) {
   output$mtcars_plot <- renderPlot({
     # Check if we should show the plot
     if(rv$showPlot) {
-      ggplot(mtcars, aes(wt, mpg)) +
-        geom_point() +
-        theme_minimal()
+      
+      
+      
+      if(input$typePlot == 'Mood'){
+        display_heat_map(df = m_df,
+                         construct = 'Mood', 
+                         construct_title = 'Moods Obtained', 
+                         firstDayOfWeek = first_day,
+                         lastDayOfWeek = last_day)
+        
+      } else if(input$typePlot == 'Goal'){
+        display_heat_map(df = g_df,
+                         construct = 'Goals', 
+                         construct_title = 'Goals Obtained', 
+                         firstDayOfWeek = first_day,
+                         lastDayOfWeek = last_day)
+      } else if (input$typePlot == 'Food Quality'){
+        display_heat_map(df = fq_df,
+                         construct = 'Food Quality', 
+                         construct_title = 'FQ Obtained',
+                         firstDayOfWeek = first_day,
+                         lastDayOfWeek = last_day) 
+      }
+      
+      
+      
+      
+      
+      
     }
   })
   
@@ -358,7 +403,7 @@ server <- function(input, output, session) {
       shinyjs::hide("mtcars_plot")
     }
   })
-
+  
 }
 
 shinyApp(ui, server)

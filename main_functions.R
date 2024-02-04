@@ -70,7 +70,7 @@ heatmap_plot = function(df,
           axis.text.x = element_text(size = 9),
           axis.title = element_text(size = 13,vjust =2,face = "bold"))
   # Add a custom legend for alpha
-  p = p + guides(alpha = guide_legend(override.aes = list(fill = "grey")))
+  
   
   return(p)
 }
@@ -148,14 +148,14 @@ display_heat_map = function(df,
   goal_minus = '#cc3232' ## Red
   
   ## Moods
-  mood_plus = '#2dc937'  ## Green
-  mood = '#e7b416'       ## Yellow
-  mood_minus = '#cc3232' ## Red
+  mood_plus = '#008000'  ## Green
+  mood = '#ADD8E6'       ## Yellow
+  mood_minus = '#808080' ## Red
   
   ## Moods
-  fq_low = '#5156E5'  ## Green
-  fq = '#FEB24C'       ## Yellow
-  fq_high = '#800026' ## Red
+  fq_low = '#0000FF'  ## Green
+  fq = '#FFA500'       ## Yellow
+  fq_high = '#FF0000' ## Red
   
   
   ## Set Out color

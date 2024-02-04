@@ -4,14 +4,12 @@ format: html
 editor: visual
 ---
 
-
 ```{r setup}
 library(lubridate)
 library(tidyverse)
 library(mongolite)
 source("main_functions.R")
 ```
-
 
 ```{r}
 username <- Sys.getenv("username")
@@ -31,14 +29,8 @@ excel_df <- readxl::read_xlsx("sample_data.xlsx") %>%
   rename(Food_Quality = `Food Quality`)
 ```
 
-
-
-
-
-
-
-
 ## Excel Manipulation
+
 ```{r}
 #| warning: false
 #| message: false
@@ -53,6 +45,14 @@ if (wday(today, week_start = 1) == 1) {
 first_day <- today - wday(today, week_start = 1) 
 last_day <- first_day + 6
 
+
+mod_1_mongo_df <- mongo_df %>%
+  mutate(specificTime = ymd_hms(specificTime), 
+         specificDate = date(specificTime)) %>% 
+  filter(specificDate >= first_day & specificDate <= last_day) %>% 
+  mutate(timeBlock = factor(timeBlock, levels = c("4 am", "7:45 am", "10:45 am", "12 pm", "3 pm", "6 pm", "8:30 pm")),
+         timeBlock = fct_relevel(timeBlock, c("4 am", "7:45 am", "10:45 am", "12 pm", "3 pm", "6 pm", "8:30 pm")))
+         
 
 
 
@@ -75,7 +75,6 @@ fq_df = mod_1_excel_df  %>%
 
 ```
 
-
 ```{r}
 #| warning: false
 
@@ -84,24 +83,40 @@ display_heat_map(df = m_df,
                  construct_title = 'Moods Obtained', 
                  firstDayOfWeek = first_day,
                  lastDayOfWeek = last_day)
-```
 
-
-```{r}
 
 display_heat_map(df = g_df,
                  construct = 'Goals', 
                  construct_title = 'Goals Obtained', 
                  firstDayOfWeek = first_day,
                  lastDayOfWeek = last_day)
-```
 
-
-```{r}
 display_heat_map(df = fq_df,
                  construct = 'Food Quality', 
-                 construct_title = 'Food Quality Obtained', 
+                 construct_title = 'FQ Obtained',
                  firstDayOfWeek = first_day,
                  lastDayOfWeek = last_day)
 ```
 
+```{r}
+
+mod_1_mongo_df <- mongo_df %>%
+  mutate(specificTime = ymd_hms(specificTime), 
+         specificDate = date(specificTime)) %>% 
+  filter(specificDate >= first_day & specificDate <= last_day)
+
+
+
+g_mongo_df <- mod_1_mongo_df %>% 
+  select(specificDate,timeBlock,goalOutcome) %>% 
+  arrange(specificDate,timeBlock) %>% 
+  pivot_wider(names_from = timeBlock, values_from = goalOutcome) %>% 
+  select(-specificDate)
+
+head(g_mongo_df)
+```
+
+```{r}
+mongo_df %>% 
+  select(specificTime,timeBlock,foodQuality)
+```
