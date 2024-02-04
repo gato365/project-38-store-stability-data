@@ -1,0 +1,107 @@
+---
+title: "Learning Visualizations"
+format: html
+editor: visual
+---
+
+
+```{r setup}
+library(lubridate)
+library(tidyverse)
+library(mongolite)
+source("main_functions.R")
+```
+
+
+```{r}
+username <- Sys.getenv("username")
+password <- Sys.getenv("password")
+data_base <- Sys.getenv("data_base")
+cluster <- Sys.getenv("cluster")
+url <- paste0("mongodb+srv://",username,":",password,"@",cluster,".rjzoaxj.mongodb.net/",data_base,"?retryWrites=true&w=majority")
+mongo <- mongo(url = url,
+               collection = "emans_info",
+               db = "stability",
+               options = ssl_options(key = openssl::read_cert(Sys.getenv("pem"))))
+# 
+
+
+mongo_df <- mongo$find()
+excel_df <- readxl::read_xlsx("sample_data.xlsx") %>% 
+  rename(Food_Quality = `Food Quality`)
+```
+
+
+
+
+
+
+
+
+## Excel Manipulation
+```{r}
+#| warning: false
+#| message: false
+
+# Get today's date
+today <- Sys.Date()
+# If today is a Sunday, go back to the previous week
+if (wday(today, week_start = 1) == 1) {
+  today <- today - 7
+}
+# Find the most recent Sunday
+first_day <- today - wday(today, week_start = 1) 
+last_day <- first_day + 6
+
+
+
+
+mod_1_excel_df <- excel_df %>% 
+  separate(Goals,paste0('Goal_',seq(1:7)),sep = ';') %>%
+  separate(Mood,paste0('Mood_',seq(1:7)),sep = ';') %>% 
+  separate(Food_Quality,paste0('FQ_',seq(1:7)),sep = ';') %>% 
+  filter(Date>= first_day & Date<=last_day) 
+         
+m_df = mod_1_excel_df  %>% 
+  select(contains('Mood_'))%>% 
+  mutate_if(is.character,str_trim)
+
+g_df = mod_1_excel_df  %>% 
+  select(contains('Goal_')) %>% 
+  mutate_if(is.character,str_trim)
+fq_df = mod_1_excel_df  %>% 
+  select(contains('FQ_')) %>% 
+  mutate_if(is.character,str_trim)
+
+```
+
+
+```{r}
+#| warning: false
+
+display_heat_map(df = m_df,
+                 construct = 'Mood', 
+                 construct_title = 'Moods Obtained', 
+                 firstDayOfWeek = first_day,
+                 lastDayOfWeek = last_day)
+```
+
+
+```{r}
+
+display_heat_map(df = g_df,
+                 construct = 'Goals', 
+                 construct_title = 'Goals Obtained', 
+                 firstDayOfWeek = first_day,
+                 lastDayOfWeek = last_day)
+```
+
+
+```{r}
+display_heat_map(df = fq_df,
+                 construct = 'Food Quality', 
+                 construct_title = 'Food Quality Obtained', 
+                 firstDayOfWeek = first_day,
+                 lastDayOfWeek = last_day)
+```
+
