@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 .Renviron
+myCA.key
+myCA.pem
+app.test.key
+app.test.csr

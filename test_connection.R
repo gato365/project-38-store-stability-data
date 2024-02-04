@@ -20,7 +20,7 @@ url <- paste0("mongodb+srv://",username,":",password,"@",cluster,".rjzoaxj.mongo
 
 mongo <- mongo(url = url,
                collection = "emans_info", 
-               db = "stability")
+               db = "stability",options = )
 
 
 

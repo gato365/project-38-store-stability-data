@@ -1,0 +1,38 @@
+---
+title: "Cal Poly & GATO365 Data Science Symposium - Fall 2024"
+author: "Immanuel Williams PhD"
+date: "Fall 2024"
+---
+
+# Cal Poly & GATO365 Data Science Symposium - Fall 2024
+
+## Introduction
+Join us this fall for an immersive experience in the world of data science. The Cal Poly & GATO365 Data Science Symposium is designed to ignite high school students' passion for data science, statistics, and computer science.
+
+## Main Objectives
+- **Engage**: Develop an interactive and engaging curriculum for high school students.
+- **Showcase**: Illustrate the impact of data science across various fields.
+- **Challenge**: Facilitate competitions to inspire a deeper interest in data science.
+- **Diversify**: Welcome students from all backgrounds to explore data science.
+- **Experience**: Give Cal Poly students hands-on experience in the data science industry.
+
+## Event Highlights
+- **300 Students**: From LA to SC, including Central Valley.
+- **Duration**: Event - 1hr 30mins | Campus Tour - 3hrs
+- **Stations**: Each station lasts 6-12 mins with a 2-3 mins transition.
+
+## Activities
+- **Interactive Stations**: Engage in hands-on data science applications.
+- **Campus Tour**: Explore the grounds of Cal Poly and its resources.
+- **Symposium Talks**: Learn from experts about data science in various sectors.
+
+## Logistics
+- Dividers, markers, and guides to facilitate movement.
+- Announcements and security for a smooth experience.
+
+## How to Participate
+For more information and to register, please contact [Insert Contact Information].
+
+---
+
+For a detailed schedule and list of speakers, visit our [website](https://www.gato365.com/symposium).

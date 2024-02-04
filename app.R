@@ -20,10 +20,9 @@ cluster <- Sys.getenv("cluster")
 url <- paste0("mongodb+srv://",username,":",password,"@",cluster,".rjzoaxj.mongodb.net/",data_base,"?retryWrites=true&w=majority")
 mongo <- mongo(url = url,
                collection = "emans_info",
-               db = "stability")
-
-
-
+               db = "stability",
+               options = ssl_options(key = openssl::read_cert(Sys.getenv("pem"))))
+# 
 
 
 
@@ -84,7 +83,26 @@ ui <- material_page(
                 inputId = "weight",
                 label = "Weight:",
                 icon = icon("weight"),
+                value = 205
+              )
+            )
+          ),
+          material_row(
+            material_column(
+              width = 6,
+              shinyWidgets::numericInputIcon(
+                inputId = "timeToComplete",
+                label = "Time to complete e (seconds):",
                 value = 0
+              )
+            ),
+            material_column(
+              width = 6,
+              shiny::selectInput(
+                inputId = "eSection",
+                label = "Time to complete EAB or ECD:",
+                choices = c("EAB", "ECD"),
+                
               )
             )
           )
@@ -165,7 +183,7 @@ ui <- material_page(
             )
           )
         ),
-      
+        
         
         
         
@@ -182,7 +200,7 @@ ui <- material_page(
             )
           )
         ),
-          
+        
         
         material_row(
           material_column(
@@ -198,11 +216,30 @@ ui <- material_page(
               icon = icon("save")
             )
           )
+        ),
+        
+        material_row(
+       
+          material_column(
+            width = 12,
+            actionButton("toggle_plot", "Show/Hide Plot"),
+            # actionButton("show_plot", "Show Visualization", class = "btn-primary")
+          )
         )
+        
+        
+        
+        
+        
       )
     )
   ),
-  
+  material_row(
+    material_column(
+      width = 12,
+      plotOutput("mtcars_plot", height = "300px") 
+    )
+  ),
   #   # Output the saved JSON
   verbatimTextOutput("jsonData")
 )
@@ -243,6 +280,10 @@ ui <- material_page(
 #   verbatimTextOutput("jsonData")
 # )
 
+
+
+
+
 server <- function(input, output, session) {
   
   
@@ -262,7 +303,10 @@ server <- function(input, output, session) {
       timeBlock = input$timeBlock,
       wakeUpTime = input$wakeUpTime,
       weight = input$weight,
+      timeToComplete = input$timeToComplete,
+      eSection = input$eSection,
       goalOutcome = input$goalOutcome,
+      moodOutcome = input$mood,
       foodQuality = input$foodQuality,
       drink = input$drink,
       mj = input$mj,
@@ -289,6 +333,32 @@ server <- function(input, output, session) {
       
     })
   })
+  
+  # Reactive value to track the visibility of the plot
+  rv <- reactiveValues(showPlot = FALSE)
+  
+  # Generate the plot
+  output$mtcars_plot <- renderPlot({
+    # Check if we should show the plot
+    if(rv$showPlot) {
+      ggplot(mtcars, aes(wt, mpg)) +
+        geom_point() +
+        theme_minimal()
+    }
+  })
+  
+  # Observe the button click
+  observeEvent(input$toggle_plot, {
+    rv$showPlot <- !rv$showPlot  # Toggle the showPlot value
+    if(rv$showPlot) {
+      # Use shinyjs to show the plot
+      shinyjs::show("mtcars_plot")
+    } else {
+      # Use shinyjs to hide the plot
+      shinyjs::hide("mtcars_plot")
+    }
+  })
+
 }
 
 shinyApp(ui, server)
