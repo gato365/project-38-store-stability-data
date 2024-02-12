@@ -5,7 +5,7 @@ account: gato365
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10993951
-bundleId: 8220849
+bundleId: 8245964
 url: https://gato365.shinyapps.io/store_stability/
 version: 1
 asMultiple: FALSE
