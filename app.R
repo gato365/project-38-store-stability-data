@@ -109,8 +109,8 @@ ui <- material_page(
               width = 6,
               shiny::selectInput(
                 inputId = "eSection",
-                label = "Time to complete EAB or ECD:",
-                choices = c("EAB", "ECD"),
+                label = "Type of Memory Selection:",
+                choices = c("EAB", "ECD",  "EA", "EB", "EC", "ED", "E"),
                 
               )
             )
@@ -256,7 +256,8 @@ ui <- material_page(
   material_row(
     material_column(
       width = 12,
-      plotOutput("mtcars_plot", height = "300px") 
+      align = "center",
+      plotOutput("mtcars_plot", height = "500px", width = "600px") 
     )
   ),
   #   # Output the saved JSON
