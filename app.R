@@ -145,7 +145,18 @@ ui <- material_page(
             )
           )
         ),
-        
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
         material_row(
           material_column(
             width = 4,
@@ -179,7 +190,18 @@ ui <- material_page(
           )
         ),
         
-        
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
+        br(),
         
         material_row(
           material_column(
